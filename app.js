@@ -50,12 +50,6 @@ app.get('/scrape', function(req, res){
 
       var $ = cheerio.load(html);
 
-      //console.log($);
-
-      // Finally, we'll define the variables we're going to capture
-
-      //var title, release, rating;
-      //var json = { title : "", release : "", rating : ""};
 
       $('.sodatext').each(function(i,element){
 
