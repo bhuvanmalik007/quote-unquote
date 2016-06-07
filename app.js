@@ -10,7 +10,7 @@ var cheerio = require('cheerio');
 var app = express();
 
 var character,quote;
-var json = [];
+
 //character : "", quote : ""
 
 
@@ -26,6 +26,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.get('/',function(req,res){
   res.send('QUOTE-UNQUOTE');
@@ -42,6 +47,7 @@ app.get('/scrape', function(req, res){
   // The callback function takes 3 parameters, an error, response status code and the html
 
   request(url, function(error, response, html){
+    var json = [];
 
     // First we'll check to make sure no errors occurred when making the request
 
@@ -71,7 +77,12 @@ app.get('/scrape', function(req, res){
         json[i].quote = temp;
       });
 
+
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
       res.json(json);
+
 
     }
   })
